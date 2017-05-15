@@ -2,7 +2,6 @@ import { Directive, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementR
 //import { ControlValueAccessor } from '@angular/forms';
 import { DaterangepickerConfig } from './config.service';
 
-import * as $ from "jquery";
 import * as moment from 'moment';
 import 'bootstrap-daterangepicker';
 
