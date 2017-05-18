@@ -70,6 +70,20 @@
             <pre>{{ dateInput | json }}</pre>
             <hr />
         </div>
+         <h3>Programmaticaly change Datepicker</h3>
+
+        <div class="form-group">
+
+            <input class="input-group" daterangepicker [selectedDateRange]="selectedDateRange" [selectedDateRange]="selectedDateRange" />
+            
+            <div>
+                <button class="btn btn-primary" (click)="changeDateRange()">Update</button>
+            </div>
+        </div>
+
+        <p>
+            Above example demonstrates how to tap to the events fired by the daterangepicker
+        </p>
     </form>
 
 </div>

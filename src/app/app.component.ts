@@ -29,6 +29,8 @@ export class AppComponent implements OnInit {
         }
     ];
 
+    public selectedDateRange = {startDate: new Date(2017,0,1), endDate: new Date(2017,1,4)};
+
     public mainInput = {
         start: moment().subtract(12, 'month'),
         end: moment().subtract(6, 'month')
@@ -69,6 +71,8 @@ export class AppComponent implements OnInit {
         this.singleDate = value.start;
     }
 
+
+
     private applyDate(value: any, dateInput: any) {
         dateInput.start = value.start;
         dateInput.end = value.end;
@@ -78,5 +82,12 @@ export class AppComponent implements OnInit {
     public calendarEventsHandler(e: any) {
         console.log(e);
         this.eventLog += '\nEvent Fired: ' + e.event.type;
+    }
+
+    public changeDateRange(){
+        this.selectedDateRange = {
+            startDate: new Date(2017, 0, 1),
+            endDate: new Date(2017, 1, 1)
+        }
     }
 }

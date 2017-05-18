@@ -1,16 +1,23 @@
-import { Directive, OnInit, AfterViewInit, Input, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, OnInit, OnChanges,SimpleChanges, AfterViewInit, Input, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
 //import { ControlValueAccessor } from '@angular/forms';
 import { DaterangepickerConfig } from './config.service';
 
 import * as moment from 'moment';
 import 'bootstrap-daterangepicker';
+//import * as $ from 'jquery'
+
+export interface IDateRange{
+    startDate:Date,
+    endDate:Date
+}
 
 @Directive({
     selector: '[daterangepicker]'
 })
-export class DaterangePickerComponent implements AfterViewInit, OnDestroy {
+export class DaterangePickerComponent implements AfterViewInit, OnDestroy, OnChanges {
 
     @Input() options: any = {};
+    @Input() selectedDateRange? : IDateRange;
     @Output() selected = new EventEmitter();
 
     // daterangepicker events
@@ -27,8 +34,14 @@ export class DaterangePickerComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
 
+
+
         let targetOptions: any = Object.assign({}, this.config.settings, this.options);
 
+        if (this.selectedDateRange) {
+               targetOptions.startDate = this.selectedDateRange.startDate;
+               targetOptions.endDate = this.selectedDateRange.endDate;
+        }
         // tell config service to embed the css
         this.config.embedCSS();
 
@@ -91,6 +104,22 @@ export class DaterangePickerComponent implements AfterViewInit, OnDestroy {
         this.selected.emit(obj);
     }
 
+
+    ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+        if(!this.datePicker){
+            return;
+        }
+        if(changes.selectedDateRange){
+            const newSelectedDate = changes.selectedDateRange.currentValue;
+            (<any>$(this.input.nativeElement))
+                .data('daterangepicker')
+                .setStartDate(newSelectedDate.startDate);
+            (<any>$(this.input.nativeElement))
+                .data('daterangepicker')
+                .setEndDate(newSelectedDate.endDate);
+        }
+    }
     ngOnDestroy() {
         try {
             (<any>$(this.input.nativeElement)).data('daterangepicker').remove();
